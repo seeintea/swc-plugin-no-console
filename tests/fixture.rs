@@ -1,4 +1,4 @@
-use no_console::transform;
+use plugin_no_console::transform;
 
 use std::path::PathBuf;
 
