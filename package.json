@@ -1,9 +1,9 @@
 {
     "name": "swc-plugin-no-console",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "",
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "keywords": ["swc-plugin"],
     "main": "target/wasm32-wasi/release/no_console.wasm",
     "scripts": {
