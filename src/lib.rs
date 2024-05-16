@@ -15,7 +15,7 @@ use swc_core::{
 fn should_ignore_file(metadata: &TransformPluginProgramMetadata, patterns: &[String]) -> bool {
     let filename = metadata.get_context(&TransformPluginMetadataContextKind::Filename);
     if let Some(str) = filename {
-        return patterns.iter().any(|pattern| str.contains(pattern))
+        return patterns.iter().any(|pattern| str.contains(pattern));
     }
     false
 }
@@ -27,7 +27,7 @@ fn plugin_no_console(program: Program, metadata: TransformPluginProgramMetadata)
         .and_then(|json| serde_json::from_str(&json).ok())
         .unwrap_or_default();
 
-    if should_ignore_file(&metadata, &config.excludes_files) {
+    if config.excludes_files.len() > 0 && should_ignore_file(&metadata, &config.excludes_files) {
         return program;
     }
 
