@@ -14,7 +14,8 @@ remove `console` function when use swc.
     "experimental": {
       "plugins": [["swc-plugin-no-console", {
         "excludes": ["log"],
-        "includesValue": ["data"]
+        "includesValue": ["data"],
+        "excludesFiles": ["index.js"]
       }]]
     }
   },
@@ -25,6 +26,8 @@ remove `console` function when use swc.
 
 `includesValue`: output containing any value from `includes_value` is preserved.(only string now)
 
+`excludesFiles`: files in `excludes_files` are not processed
+
 ## TODO
-- [ ] support `excludes_files`
+
 - [ ] support any type in `includes_value`
