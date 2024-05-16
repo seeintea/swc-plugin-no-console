@@ -17,7 +17,7 @@ impl TransformVisitor {
         TransformVisitor { config }
     }
 
-    pub fn will_retain_by_value(&mut self, expr: &CallExpr) -> bool {
+    pub fn should_retain_by_value(&mut self, expr: &CallExpr) -> bool {
         let mut has_target = false;
 
         for expr_or_spread in &expr.args {
@@ -34,10 +34,11 @@ impl TransformVisitor {
                 }
             }
         }
+
         has_target
     }
 
-    pub fn will_remove_console(&mut self, expr: &MemberExpr) -> bool {
+    pub fn should_remove_console(&mut self, expr: &MemberExpr) -> bool {
         let target_sym = match &*expr.obj {
             Expr::Ident(ident) => ident.sym == "console",
             _ => false,
@@ -54,7 +55,7 @@ impl TransformVisitor {
         return target_sym && target_prop;
     }
 
-    pub fn will_remove(&mut self, stmt: &mut Stmt) -> bool {
+    pub fn should_remove(&mut self, stmt: &mut Stmt) -> bool {
         if let Stmt::Expr(expr) = stmt {
             if let Expr::Call(call_expr) = &mut *expr.expr {
                 let callee = &call_expr.callee;
@@ -69,10 +70,10 @@ impl TransformVisitor {
                 let mut has_retain_value = false;
 
                 if self.config.includes_value.len() > 0 {
-                    has_retain_value = self.will_retain_by_value(&call_expr);
+                    has_retain_value = self.should_retain_by_value(&call_expr);
                 }
 
-                return self.will_remove_console(&member_expr) && !has_retain_value;
+                return self.should_remove_console(&member_expr) && !has_retain_value;
             }
         }
         false
@@ -81,7 +82,7 @@ impl TransformVisitor {
 
 impl VisitMut for TransformVisitor {
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
-        if self.will_remove(stmt) {
+        if self.should_remove(stmt) {
             stmt.take();
         }
         stmt.visit_mut_children_with(self);
