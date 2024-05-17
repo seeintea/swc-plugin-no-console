@@ -1,12 +1,12 @@
 use swc_core::{
     common::util::take::Take,
     ecma::{
-        ast::{CallExpr, Callee, Expr, Lit, MemberExpr, MemberProp, Stmt},
+        ast::{CallExpr, Callee, Expr, MemberExpr, MemberProp, Stmt},
         visit::{VisitMut, VisitMutWith},
     },
 };
 
-use crate::config::Config;
+use crate::{config::Config, utils::get_lit_value};
 
 pub struct TransformVisitor {
     config: Config,
@@ -25,13 +25,7 @@ impl TransformVisitor {
                 break;
             }
             if let Expr::Lit(lit) = &*expr_or_spread.expr {
-                has_target = match lit {
-                    Lit::Str(str) => {
-                        let value = str.value.to_string();
-                        self.config.includes_value.contains(&value)
-                    }
-                    _ => false,
-                }
+                has_target = self.config.includes_value.contains(&get_lit_value(lit))
             }
         }
 

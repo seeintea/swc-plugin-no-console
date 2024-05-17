@@ -24,10 +24,6 @@ remove `console` function when use swc.
 
 `excludes`: methods in `excludes` are preserved
 
-`includesValue`: output containing any value from `includes_value` is preserved.(only string now)
+`includesValue`: output containing any value from `includes_value` is preserved.(only basic type)
 
 `excludesFiles`: files in `excludes_files` are not processed
-
-## TODO
-
-- [ ] support any type in `includes_value`

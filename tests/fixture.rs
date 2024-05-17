@@ -77,7 +77,7 @@ fn fixture_includes_value(input: PathBuf) {
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
                 as_folder(TransformVisitor::new(Config {
-                    includes_value: vec!["log0".to_string()],
+                    includes_value: vec!["log0".to_string(), "111".to_string()],
                     ..Config::default()
                 }))
             )
